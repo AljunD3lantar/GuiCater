@@ -14,7 +14,7 @@ public class dbConnector {
     
     public dbConnector(){
             try{
-                connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/testdbb", "root", "");
+                connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/catering", "root", "");
             }catch(SQLException ex){
                     System.out.println("Can't connect to database: "+ex.getMessage());
             }
@@ -34,13 +34,13 @@ public class dbConnector {
             return false;
         }
         
-        //Function to retrieve data
+    }
 
     public ResultSet getData(String sql) throws SQLException{
             Statement stmt = connect.createStatement();
             ResultSet rst = stmt.executeQuery(sql);
             return rst;
         }
-    
-    }
+}
+
     
