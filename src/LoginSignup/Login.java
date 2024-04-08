@@ -2,6 +2,7 @@
 package LoginSignup;
 
 import Admin.*;
+import User.*;
 import config.dbConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,13 +21,30 @@ public class Login extends javax.swing.JFrame {
     public static boolean loginAcc(String user, String pass){
         dbConnector connector = new dbConnector();
         try{
-            String query = "SELECT * FROM tbl_user  WHERE u_username = '" + user + "' AND u_password = '" + pass + "'";
+            String query = "SELECT * FROM tbl_user  WHERE user_username = '" + user + "' AND user_password = '" + pass + "' AND u_status = 'Active'";
             ResultSet resultSet = connector.getData(query);
             return resultSet.next();
         }catch (SQLException ex) {
             return false;
         }
 
+    }
+    
+    public static String getAccount(String user, String pass){
+        dbConnector connector = new dbConnector();
+        try{
+            String sql = "SELECT user_type FROM tbl_user WHERE user_username = '"+user+"'AND user_password = '"+pass+"'";
+            ResultSet resultSet = connector.getData(sql);
+            if(resultSet.next()){
+                return resultSet.getString("user_type");
+            }else{
+                return null;
+            }
+            
+        }catch(SQLException ex){
+            System.out.println(""+ex);
+            return null;
+        }
     }
     
     
@@ -176,15 +194,29 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ExitActionPerformed
 
+    
+   
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
-        if(loginAcc(user.getText(), pass.getText())){
-            JOptionPane.showMessageDialog(null, "Login Successfully!");
-            adminWindow ads = new adminWindow();
-            ads.setVisible(true);
-            this.dispose();
-            
-        }else{
-            JOptionPane.showMessageDialog(null, "Login Failed!");
+        
+        if(loginAcc(user.getText(),pass.getText())){
+            String user_type = getAccount(user.getText(),pass.getText()); 
+
+            if (user_type.equals("Admin")) {
+                JOptionPane.showMessageDialog(null,"Admin Login Success!");
+                adminWindow ads = new adminWindow();
+                ads.setVisible(true);
+                this.dispose();
+            } else if (user_type.equals("User")) {
+                JOptionPane.showMessageDialog(null,"User Login Success!");
+                user ads = new user();
+                ads.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null,"Unknown Account! Please enter your correct account."); 
+                return;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null,"Login Failed!");
         }
     }//GEN-LAST:event_loginActionPerformed
 

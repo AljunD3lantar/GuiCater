@@ -134,7 +134,7 @@ public class Signup extends javax.swing.JFrame {
         });
         jPanel2.add(signup1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 380, 80, 30));
 
-        ut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin" }));
+        ut.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
         jPanel2.add(ut, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, 170, 30));
 
         fn.addActionListener(new java.awt.event.ActionListener() {
